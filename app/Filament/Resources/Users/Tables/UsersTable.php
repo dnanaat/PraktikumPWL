@@ -17,9 +17,18 @@ class UsersTable
         return $table
             ->columns([
                 //
-                textColumn::make('name')->searchable()->sortable(),
-                textColumn::make('email')->searchable()->sortable(),
-                textColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('name')
+                    ->toggleable()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('email')
+                    ->toggleable()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->toggleable()
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 //

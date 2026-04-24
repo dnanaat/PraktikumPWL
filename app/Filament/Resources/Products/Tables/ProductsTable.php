@@ -18,10 +18,22 @@ class ProductsTable
         return $table
             ->columns([
                 //
-                TextColumn::make('name'),
-                TextColumn::make('sku'),
-                TextColumn::make('price'),
-                TextColumn::make('stock'),
+                TextColumn::make('name')
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('sku')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('price')
+                    ->toggleable()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('stock')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->searchable(),
                 ImageColumn::make('image')
                     ->disk('public'),
                 IconColumn::make('is_active')
