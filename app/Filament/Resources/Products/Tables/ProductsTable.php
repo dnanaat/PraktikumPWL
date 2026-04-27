@@ -10,6 +10,10 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Toggle;
 
 class ProductsTable
 {
@@ -37,6 +41,7 @@ class ProductsTable
                 ImageColumn::make('image')
                     ->disk('public'),
                 IconColumn::make('is_active')
+                    ->label('Status')
                     ->boolean(),
                 
             ])
@@ -46,6 +51,19 @@ class ProductsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
+                ReplicateAction::make(),
+                Action::make('status')
+                    ->label('Status Change')
+                    ->icon('heroicon-o-arrow-path')
+                    ->schema([
+                        Toggle::make('is_active')
+                            ->default(fn($record): bool => $record->is_active),
+                    ])
+                    ->action(function ($record) {
+                        $record->update(['is_active' => !$record->is_active]);
+                    })
+                    ->requiresConfirmation(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

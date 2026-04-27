@@ -7,6 +7,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ReplicateAction;
 
 use function Laravel\Prompts\text;
 
@@ -35,6 +37,8 @@ class UsersTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
+                ReplicateAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

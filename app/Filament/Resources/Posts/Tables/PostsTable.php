@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Posts\Tables;
 
 use Dom\Text;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -15,6 +14,11 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ReplicateAction;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Checkbox;
 
 class PostsTable
 {
@@ -71,7 +75,20 @@ class PostsTable
                     ->preload(),
             ])
             ->recordActions([
+                ReplicateAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
+                Action::make('status')
+                    ->label('Status Change')
+                    ->icon('heroicon-o-check-circle')
+                    ->schema([
+                        Checkbox::make('published')
+                            ->default(fn($record): bool => $record->published),
+                    ])
+                    ->action(function ($record, $data) {
+                        $record->update(['published' => $data['published']]);
+                    })
+                    ->requiresConfirmation(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
