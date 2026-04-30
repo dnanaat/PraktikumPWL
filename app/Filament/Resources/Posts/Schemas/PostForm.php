@@ -72,14 +72,17 @@ class PostForm
 
                     //section 3 - meta
                     Section::make('Meta Information')
-                    ->icon('heroicon-o-information-circle')
                     ->schema([
-                        TagsInput::make('tags'),
+                        // TagsInput::make('tags'),
+                        Select::make('tags')
+                            ->relationship('tags', 'name')
+                            ->multiple()
+                            ->preload(),
                         Checkbox::make('published'),
                         DateTimePicker::make('published_at'),
                     ]),
-                    ])->columnSpan(1)
-                            
+                        ])->columnSpan(1)
+                        
         ])->columns(3);
     }
 }
